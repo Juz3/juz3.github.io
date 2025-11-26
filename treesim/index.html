@@ -162,13 +162,14 @@
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="number" id="seed" placeholder="seed (int)" style="flex:1; padding:6px; border-radius:6px; border:1px solid #333; background:#101010; color:#eee;"> 
             <button id="seed-btn" title="Set seed" style="padding:6px">Set</button>
-            <button id="randomize-seed-btn" title="Randomize seed" style="padding:6px">Random</button>
+            <!-- no randomize button; Generate will pick a new random seed -->
         </div>
     </div>
 
     <div class="buttons">
         <button id="btn-start" title="Stop">⏹</button>
-        <button id="btn-reset">Generate</button>
+        <button id="btn-reset">Generate new</button>
+        <button id="btn-regenerate" title="Regenerate using current seed">Regenerate</button>
     </div>
 
     <div class="stats">
