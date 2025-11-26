@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Tree Growth Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #eee;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 280px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin: 0 0 15px 0;
+            text-align: center;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .control-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: #ccc;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #4ade80;
+        }
+
+        .value-display {
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            font-size: 0.9rem;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #btn-start {
+            background-color: #4ade80;
+            color: #003300;
+        }
+
+        #btn-start:hover {
+            background-color: #22c55e;
+        }
+
+        #btn-reset {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        #btn-reset:hover {
+            background-color: #dc2626;
+        }
+
+        .stats {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="simCanvas"></canvas>
+
+<div id="controls">
+    <h1>Tree Simulator</h1>
+
+    <div class="control-group">
+        <label>Growth Speed <span id="val-speed" class="value-display">0.5</span></label>
+        <input type="range" id="speed" min="0.25" max="5" step="0.25" value="0.5">
+    </div>
+
+    <div class="control-group">
+        <label>Branch Chance <span id="val-chance" class="value-display">0.02</span></label>
+        <input type="range" id="chance" min="0.001" max="0.1" step="0.001" value="0.02">
+    </div>
+
+    <div class="control-group">
+        <label>Branch Angle (deg) <span id="val-angle" class="value-display">18</span></label>
+        <input type="range" id="angle" min="5" max="90" value="18">
+    </div>
+
+    <div class="control-group">
+        <label>Wiggle / Noise <span id="val-wiggle" class="value-display">0.05</span></label>
+        <input type="range" id="wiggle" min="0" max="0.5" step="0.01" value="0.05">
+    </div>
+
+    <div class="control-group">
+        <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
+        <input type="range" id="gravity" min="-0.1" max="0.1" step="0.005" value="0.00">
+        <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=Up, Pos=Down)</div>
+    </div>
+
+    <div class="control-group">
+        <label>Thickness Taper <span id="val-taper" class="value-display">0.95</span></label>
+        <input type="range" id="taper" min="0.8" max="0.99" step="0.01" value="0.95">
+    </div>
+
+    <div class="control-group">
+        <label>Segment Length <span id="val-segment-length" class="value-display">5</span></label>
+        <input type="range" id="segment-length" min="2" max="15" step="1" value="5">
+    </div>
+
+    <div class="control-group">
+        <label>Seed <span id="seed-label" class="value-display">—</span></label>
+        <div style="display:flex; gap:6px; align-items:center;">
+            <input type="number" id="seed" placeholder="seed (int)" style="flex:1; padding:6px; border-radius:6px; border:1px solid #333; background:#101010; color:#eee;"> 
+            <button id="seed-btn" title="Set seed" style="padding:6px">Set</button>
+            <button id="randomize-seed-btn" title="Randomize seed" style="padding:6px">Random</button>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="btn-start">Pause</button>
+        <button id="btn-reset">Reset</button>
+    </div>
+
+    <div class="stats">
+        <span id="segment-count">0</span> Segments | <span id="tip-count">0</span> Active Tips
+    </div>
+
+<!-- External logic file (sourced in development). Build will create dist/sim.min.js to host at gh-pages -->
+
+<script src="sim.min.js"></script>
+</body>
+</html>
