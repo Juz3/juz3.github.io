@@ -144,12 +144,12 @@
     <div class="control-group">
         <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
         <input type="range" id="gravity" min="-0.1" max="0.1" step="0.005" value="0.00">
-        <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=Up, Pos=Down)</div>
+        <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=left, Pos=right)</div>
     </div>
 
     <div class="control-group">
         <label>Thickness Taper <span id="val-taper" class="value-display">0.95</span></label>
-        <input type="range" id="taper" min="0.8" max="0.99" step="0.01" value="0.95">
+        <input type="range" id="taper" min="0.7" max="1" step="0.01" value="0.95">
     </div>
 
     <div class="control-group">
@@ -162,7 +162,7 @@
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="number" id="seed" placeholder="seed (int)" style="flex:1; padding:6px; border-radius:6px; border:1px solid #333; background:#101010; color:#eee;"> 
             <button id="seed-btn" title="Set seed" style="padding:6px">Set</button>
-            <!-- no randomize button; Generate will pick a new random seed -->
+            
         </div>
     </div>
 
@@ -178,6 +178,29 @@
         <input type="range" id="collision-grace" min="0" max="10" step="1" value="3">
     </div>
 
+    <div class="control-group">
+        <label>Leaves</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+            <button id="btn-create-leaves" style="flex:1; padding:8px;">Create Leaves</button>
+            <button id="btn-clear-leaves" style="flex:1; padding:8px;">Clear</button>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label>Leaf Size <span id="val-leaf-size" class="value-display">20</span></label>
+        <input type="range" id="leaf-size" min="4" max="64" step="1" value="20">
+    </div>
+
+    <div class="control-group">
+        <label>Leaf Width <span id="val-leaf-width" class="value-display">8</span></label>
+        <input type="range" id="leaf-width" min="2" max="24" step="1" value="8">
+    </div>
+
+    <div class="control-group">
+        <label>Leaf Color <span id="val-leaf-color" class="value-display">#64c864</span></label>
+        <input type="color" id="leaf-color" value="#64c864">
+    </div>
+
     <div class="buttons">
         <button id="btn-start" title="Stop">⏹</button>
         <button id="btn-reset">Generate new</button>
@@ -185,10 +208,10 @@
     </div>
 
     <div class="stats">
-        <span id="segment-count">0</span> Segments | <span id="tip-count">0</span> Active Tips
+        <span id="segment-count">0</span> Segments | <span id="tip-count">0</span> Active Tips | <span id="leaf-count">0</span> Leaves
     </div>
 
-<!-- External logic file (sourced in development). Build will create dist/sim.min.js to host at gh-pages -->
+<!-- External logic file; build creates dist/sim.min.js -->
 
 <script src="sim.min.js"></script>
 </body>
