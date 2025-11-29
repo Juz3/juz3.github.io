@@ -156,20 +156,20 @@
 <div id="controls">
     <h1>Tree Simulator</h1>
     <div class="control-group">
-        <label>Growth Speed <span id="val-speed" class="value-display">0.5</span></label>
-        <input type="range" id="speed" min="0.25" max="5" step="0.25" value="0.5">
+        <label>Growth Speed <span id="val-speed" class="value-display">1</span></label>
+        <input type="range" id="speed" min="0.25" max="5" step="0.25" value="1">
     </div>
     <div class="control-group">
         <label>Branch Chance <span id="val-chance" class="value-display">0.02</span></label>
         <input type="range" id="chance" min="0.001" max="0.1" step="0.001" value="0.02">
     </div>
     <div class="control-group">
-        <label>Branch Angle (deg) <span id="val-angle" class="value-display">18</span></label>
-        <input type="range" id="angle" min="5" max="90" value="18">
+        <label>Branch Angle (deg) <span id="val-angle" class="value-display">22</span></label>
+        <input type="range" id="angle" min="5" max="90" value="22">
     </div>
     <div class="control-group">
-        <label>Wiggle / Noise <span id="val-wiggle" class="value-display">0.05</span></label>
-        <input type="range" id="wiggle" min="0" max="0.5" step="0.01" value="0.05">
+        <label>Wiggle / Noise <span id="val-wiggle" class="value-display">0.15</span></label>
+        <input type="range" id="wiggle" min="0" max="0.5" step="0.01" value="0.15">
     </div>
     <div class="control-group">
         <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
@@ -177,8 +177,8 @@
         <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=left, Pos=right)</div>
     </div>   
     <div class="control-group">
-        <label>Phototropism <span id="val-phototropism" class="value-display">0.02</span></label>
-        <input type="range" id="phototropism" min="0" max="0.1" step="0.005" value="0.02">
+        <label>Phototropism <span id="val-phototropism" class="value-display">0.015</span></label>
+        <input type="range" id="phototropism" min="0" max="0.1" step="0.005" value="0.015">
         <div style="font-size:0.7rem; color:#666; text-align:right;">Bias toward "sun"</div>
     </div>
     <div class="control-group">
@@ -186,16 +186,28 @@
         <input type="range" id="sun-x" min="0" max="1" step="0.01" value="0.5">
     </div>
     <div class="control-group">
-        <label>Width <span id="val-initial-width" class="value-display">12</span></label>
-        <input type="range" id="initial-width" min="5" max="40" step="1" value="12">
+        <label>Width <span id="val-initial-width" class="value-display">25</span></label>
+        <input type="range" id="initial-width" min="5" max="40" step="1" value="25">
     </div>
     <div class="control-group">
-        <label>Thickness Taper <span id="val-taper" class="value-display">0.95</span></label>
-        <input type="range" id="taper" min="0.7" max="1" step="0.01" value="0.95">
+        <label>Thickness Taper <span id="val-taper" class="value-display">0.85</span></label>
+        <input type="range" id="taper" min="0.7" max="1" step="0.01" value="0.85">
     </div>
     <div class="control-group">
         <label>Segment Length <span id="val-segment-length" class="value-display">5</span></label>
         <input type="range" id="segment-length" min="2" max="15" step="1" value="5">
+    </div>
+    <div class="control-group">
+        <label>Trunk Color <span id="val-trunk-color" class="value-display">#a66e2b</span></label>
+        <input type="color" id="trunk-color" value="#a66e2b">
+    </div>
+    <div class="control-group">
+        <label>Max Tip Age <span id="val-max-tip-age" class="value-display">200</span></label>
+        <input type="range" id="max-tip-age" min="1" max="1000" step="1" value="200">
+    </div>
+    <div class="control-group">
+        <label>Max Active Tips <span id="val-max-active-tips" class="value-display">200</span></label>
+        <input type="range" id="max-active-tips" min="1" max="2000" step="1" value="200">
     </div>
     <div class="control-group">
         <label>Seed <span id="seed-label" class="value-display">—</span></label>
