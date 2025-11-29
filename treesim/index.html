@@ -19,10 +19,29 @@
 
         #controls {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 280px;
-            padding: 20px;
+            top: 15px;
+            left: 15px;
+            width: 220px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+            overflow-y: auto;
+            max-height: calc(100vh - 30px);
+        }
+
+        .actionbar {
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            padding: 10px 15px;
             background-color: rgba(0, 0, 0, 0.75);
             border-radius: 12px;
             backdrop-filter: blur(5px);
@@ -32,8 +51,8 @@
         }
 
         h1 {
-            font-size: 1.2rem;
-            margin: 0 0 15px 0;
+            font-size: 1.0rem;
+            margin: 0 0 10px 0;
             text-align: center;
             color: #4ade80;
             text-transform: uppercase;
@@ -41,13 +60,13 @@
         }
 
         .control-group {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             margin-bottom: 4px;
             color: #ccc;
         }
@@ -62,24 +81,23 @@
         .value-display {
             color: #4ade80;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
         }
 
         .buttons {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
         }
 
         button {
             flex: 1;
-            padding: 10px;
+            padding: 8px;
             border: none;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         button:active {
@@ -105,13 +123,30 @@
         }
 
         .stats {
-            margin-top: 15px;
-            font-size: 0.8rem;
+            margin-top: 5px;
+            font-size: 0.7rem;
             color: #888;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 10px;
+            padding-top: 5px;
         }
+
+        /* Presets bar */
+        #presets {
+            position: absolute;
+            top: 20px;
+            left: 250px; /* beside the controls */
+            width: 48px;
+            padding: 6px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        #presets button { width: 36px; height: 36px; padding: 0; font-size: 1.1rem; border-radius: 6px; }
     </style>
 </head>
 <body>
@@ -120,99 +155,97 @@
 
 <div id="controls">
     <h1>Tree Simulator</h1>
-
     <div class="control-group">
         <label>Growth Speed <span id="val-speed" class="value-display">0.5</span></label>
         <input type="range" id="speed" min="0.25" max="5" step="0.25" value="0.5">
     </div>
-
     <div class="control-group">
         <label>Branch Chance <span id="val-chance" class="value-display">0.02</span></label>
         <input type="range" id="chance" min="0.001" max="0.1" step="0.001" value="0.02">
     </div>
-
     <div class="control-group">
         <label>Branch Angle (deg) <span id="val-angle" class="value-display">18</span></label>
         <input type="range" id="angle" min="5" max="90" value="18">
     </div>
-
     <div class="control-group">
         <label>Wiggle / Noise <span id="val-wiggle" class="value-display">0.05</span></label>
         <input type="range" id="wiggle" min="0" max="0.5" step="0.01" value="0.05">
     </div>
-
     <div class="control-group">
         <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
         <input type="range" id="gravity" min="-0.1" max="0.1" step="0.005" value="0.00">
         <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=left, Pos=right)</div>
+    </div>   
+    <div class="control-group">
+        <label>Phototropism <span id="val-phototropism" class="value-display">0.02</span></label>
+        <input type="range" id="phototropism" min="0" max="0.1" step="0.005" value="0.02">
+        <div style="font-size:0.7rem; color:#666; text-align:right;">Bias toward "sun"</div>
     </div>
-
+    <div class="control-group">
+        <label>Sun Position <span id="val-sun-x" class="value-display">0.50</span></label>
+        <input type="range" id="sun-x" min="0" max="1" step="0.01" value="0.5">
+    </div>
+    <div class="control-group">
+        <label>Width <span id="val-initial-width" class="value-display">12</span></label>
+        <input type="range" id="initial-width" min="5" max="40" step="1" value="12">
+    </div>
     <div class="control-group">
         <label>Thickness Taper <span id="val-taper" class="value-display">0.95</span></label>
         <input type="range" id="taper" min="0.7" max="1" step="0.01" value="0.95">
     </div>
-
     <div class="control-group">
         <label>Segment Length <span id="val-segment-length" class="value-display">5</span></label>
         <input type="range" id="segment-length" min="2" max="15" step="1" value="5">
     </div>
-
     <div class="control-group">
         <label>Seed <span id="seed-label" class="value-display">—</span></label>
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="number" id="seed" placeholder="seed (int)" style="flex:1; padding:6px; border-radius:6px; border:1px solid #333; background:#101010; color:#eee;"> 
             <button id="seed-btn" title="Set seed" style="padding:6px">Set</button>
-            
         </div>
     </div>
-
     <div class="control-group">
         <label>Stop on branch collision <span id="val-stop-collision" class="value-display">off</span></label>
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="checkbox" id="stop-on-collision"> 
         </div>
     </div>
-
     <div class="control-group">
         <label>Collision grace (new branch steps) <span id="val-collision-grace" class="value-display">2</span></label>
         <input type="range" id="collision-grace" min="0" max="10" step="1" value="3">
     </div>
-
-    <div class="control-group">
-        <label>Leaves</label>
-        <div style="display:flex; gap:8px; align-items:center;">
-            <button id="btn-create-leaves" style="flex:1; padding:8px;">Create Leaves</button>
-            <button id="btn-clear-leaves" style="flex:1; padding:8px;">Clear</button>
-        </div>
-    </div>
-
     <div class="control-group">
         <label>Leaf Size <span id="val-leaf-size" class="value-display">20</span></label>
         <input type="range" id="leaf-size" min="4" max="64" step="1" value="20">
     </div>
-
     <div class="control-group">
         <label>Leaf Width <span id="val-leaf-width" class="value-display">8</span></label>
         <input type="range" id="leaf-width" min="2" max="24" step="1" value="8">
     </div>
-
     <div class="control-group">
         <label>Leaf Color <span id="val-leaf-color" class="value-display">#64c864</span></label>
         <input type="color" id="leaf-color" value="#64c864">
     </div>
-
-    <div class="buttons">
-        <button id="btn-start" title="Stop">⏹</button>
-        <button id="btn-reset">Generate new</button>
-        <button id="btn-regenerate" title="Regenerate using current seed">Regenerate</button>
-    </div>
-
     <div class="stats">
         <span id="segment-count">0</span> Segments | <span id="tip-count">0</span> Active Tips | <span id="leaf-count">0</span> Leaves
     </div>
-
-<!-- External logic file; build creates dist/sim.min.js -->
-
+</div>
+<!-- Presets vertical bar next to controls -->
+<div id="presets" aria-label="Presets">
+    <button id="preset-1" title="Bonsai">🌳</button>
+    <button id="preset-2" title="Pine">🌲</button>
+    <button id="preset-3" title="Weeping">🌿</button>
+    <button id="preset-4" title="Grid">🏁</button>
+</div>
+<div class="actionbar">
+    <div class="buttons">
+        <button id="btn-start" title="Stop">⏹</button>
+        <button id="btn-reset">Grow New</button>
+        <button id="btn-regenerate" title="Regenerate using current seed">Regenerate</button>
+        <button id="btn-create-leaves" style="margin-left:10px;">Add🥬</button>
+        <button id="btn-clear-leaves">Clear🥬</button>
+    </div>
+</div>
 <script src="sim.min.js"></script>
 </body>
 </html>
