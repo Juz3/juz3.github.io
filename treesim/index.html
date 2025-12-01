@@ -59,6 +59,16 @@
             letter-spacing: 1px;
         }
 
+        h3 {
+            font-size: 0.7rem;
+            margin: 0 5px 10px 5px;
+            padding: 12px 0;
+            text-align: center;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .control-group {
             margin-bottom: 8px;
         }
@@ -105,21 +115,21 @@
         }
 
         #btn-start {
-            background-color: #4ade80;
+            background-color: #4a8ade;
             color: #003300;
         }
 
         #btn-start:hover {
-            background-color: #22c55e;
+            background-color: #126ee7;
         }
 
-        #btn-reset {
-            background-color: #ef4444;
+        #btn-grow {
+            background-color: #487824;
             color: white;
         }
 
-        #btn-reset:hover {
-            background-color: #dc2626;
+        #btn-grow:hover {
+            background-color: #4b9f0a;
         }
 
         .stats {
@@ -134,8 +144,8 @@
         /* Presets bar */
         #presets {
             position: absolute;
-            top: 20px;
-            left: 250px; /* beside the controls */
+            top: 15px;
+            left: 275px; /* beside the controls */
             width: 48px;
             padding: 6px;
             background-color: rgba(0, 0, 0, 0.5);
@@ -172,11 +182,6 @@
         <input type="range" id="wiggle" min="0" max="0.5" step="0.01" value="0.08">
     </div>
     <div class="control-group">
-        <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
-        <input type="range" id="gravity" min="-0.1" max="0.1" step="0.005" value="0.00">
-        <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=left, Pos=right)</div>
-    </div>   
-    <div class="control-group">
         <label>Phototropism <span id="val-phototropism" class="value-display">0.015</span></label>
         <input type="range" id="phototropism" min="0" max="0.1" step="0.005" value="0.015">
         <div style="font-size:0.7rem; color:#666; text-align:right;">Bias toward "sun"</div>
@@ -186,20 +191,26 @@
         <input type="range" id="sun-x" min="0" max="1" step="0.01" value="0.5">
     </div>
     <div class="control-group">
-        <label>Width <span id="val-initial-width" class="value-display">28</span></label>
-        <input type="range" id="initial-width" min="5" max="40" step="1" value="28">
+        <label>Width <span id="val-initial-width" class="value-display">40</span></label>
+        <input type="range" id="initial-width" min="5" max="60" step="1" value="40">
     </div>
     <div class="control-group">
-        <label>Thickness Taper <span id="val-taper" class="value-display">0.83</span></label>
-        <input type="range" id="taper" min="0.7" max="1" step="0.01" value="0.83">
+        <label>Thickness Taper <span id="val-taper" class="value-display">0.707</span></label>
+        <input type="range" id="taper" min="0.650" max="1" step="0.001" value="0.707">
     </div>
     <div class="control-group">
         <label>Segment Length <span id="val-segment-length" class="value-display">5</span></label>
         <input type="range" id="segment-length" min="2" max="15" step="1" value="5">
     </div>
-    <div class="control-group">
-        <label>Trunk Color <span id="val-trunk-color" class="value-display">#372514ff</span></label>
-        <input type="color" id="trunk-color" value="#372514ff">
+    <div style="display:flex; gap:6px;">
+        <div class="control-group" style="flex:1;">
+            <label>Background Color <span id="val-bg-color" class="value-display">#0a0e14</span></label>
+            <input type="color" id="bg-color" value="#1a1a1a">
+        </div>
+        <div class="control-group" style="flex:1;">
+            <label>Trunk Color <span id="val-trunk-color" class="value-display">#261910ff</span></label>
+            <input type="color" id="trunk-color" value="#372514ff">
+        </div>
     </div>
     <div class="control-group">
         <label>Lightness gradient <span id="val-lightness-gradient" class="value-display">on</span></label>
@@ -213,8 +224,39 @@
         <input type="range" id="max-tip-age" min="1" max="1000" step="1" value="150">
     </div>
     <div class="control-group">
-        <label>Max Active Tips <span id="val-max-active-tips" class="value-display">175</span></label>
-        <input type="range" id="max-active-tips" min="1" max="2000" step="1" value="175">
+        <label>Auto-fade thin tips <span id="val-auto-fade" class="value-display">off</span></label>
+        <div style="display:flex; gap:6px; align-items:center;">
+            <input type="checkbox" id="auto-fade-tips">
+        </div>
+        <div style="font-size:0.7rem; color:#666; text-align:right;">Natural taper for thin branches</div>
+    </div>
+    
+    <!-- Advanced Controls Toggle -->
+    <button id="toggle-advanced" style="width:100%; padding:8px; margin:10px 0; background:#2a2a2a; border:1px solid #444; border-radius:6px; color:#ccc; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <span>Advanced Controls</span>
+        <span id="advanced-arrow" style="transition: transform 0.2s;">▼</span>
+    </button>
+    
+    <!-- Advanced Controls Section (hidden by default) -->
+    <div id="advanced-controls" style="display:none;">
+        <div class="control-group">
+            <label>Max Tip Age <span id="val-max-tip-age" class="value-display">150</span></label>
+            <input type="range" id="max-tip-age" min="1" max="1000" step="1" value="150">
+        </div>
+        <div class="control-group">
+            <label>Max Active Tips <span id="val-max-active-tips" class="value-display">175</span></label>
+            <input type="range" id="max-active-tips" min="1" max="2000" step="1" value="175">
+        </div>
+        <div class="control-group">
+            <label>Gravity Bias <span id="val-gravity" class="value-display">0.00</span></label>
+            <input type="range" id="gravity" min="-0.1" max="0.1" step="0.005" value="0.00">
+            <div style="font-size:0.7rem; color:#666; text-align:right;">(Neg=left, Pos=right)</div>
+        </div>
+        <div class="control-group">
+            <label>Old Tip Branch Boost <span id="val-old-tip-branching" class="value-display">0</span></label>
+            <input type="range" id="old-tip-branching" min="0" max="10" step="0.5" value="0">
+            <div style="font-size:0.7rem; color:#666; text-align:right;">Older tips branch more (0-10x)</div>
+        </div>
     </div>
     <div class="control-group">
         <label>Auto-fade thin tips <span id="val-auto-fade" class="value-display">off</span></label>
@@ -240,7 +282,7 @@
         <label>Collision grace (new branch steps) <span id="val-collision-grace" class="value-display">2</span></label>
         <input type="range" id="collision-grace" min="0" max="10" step="1" value="3">
     </div>
-    <div class="control-group">
+    <!-- <div class="control-group">
         <label>Leaf Size <span id="val-leaf-size" class="value-display">30</span></label>
         <input type="range" id="leaf-size" min="4" max="64" step="1" value="30">
     </div>
@@ -251,13 +293,14 @@
     <div class="control-group">
         <label>Leaf Color <span id="val-leaf-color" class="value-display">#64c864</span></label>
         <input type="color" id="leaf-color" value="#64c864">
-    </div>
+    </div> -->
     <div class="stats">
         <span id="segment-count">0</span> Segments | <span id="tip-count">0</span> Active Tips | <span id="leaf-count">0</span> Leaves
     </div>
 </div>
 <!-- Presets vertical bar next to controls -->
 <div id="presets" aria-label="Presets">
+    <h3>Presets</h3>
     <button id="preset-1" title="Dedicuous">🌳</button>
     <button id="preset-2" title="Roots">🫚</button>
     <button id="preset-3" title="Bush">🌿</button>
@@ -266,10 +309,10 @@
 <div class="actionbar">
     <div class="buttons">
         <button id="btn-start" title="Stop">⏹</button>
-        <button id="btn-reset">Grow New</button>
+        <button id="btn-grow">Grow New</button>
         <button id="btn-regenerate" title="Regenerate using current seed">Regenerate</button>
-        <button id="btn-create-leaves" style="margin-left:10px;">Add🥬</button>
-        <button id="btn-clear-leaves">Clear🥬</button>
+        <!-- <button id="btn-create-leaves" style="margin-left:10px;">Add🥬</button>
+        <button id="btn-clear-leaves">Clear🥬</button> -->
     </div>
 </div>
 <script src="sim.min.js"></script>
